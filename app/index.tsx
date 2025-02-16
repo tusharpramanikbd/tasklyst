@@ -1,11 +1,12 @@
 /** @format */
 
-import { Text, View } from "react-native";
+import SafeAreaViewWrapper from "@/components/SafeAreaViewWrapper";
+import { Text } from "react-native";
 
-export default function Page() {
+export default function Home() {
   return (
-    <View>
+    <SafeAreaViewWrapper>
       <Text className="font-bold text-2xl text-red-500">Hello World</Text>
-    </View>
+    </SafeAreaViewWrapper>
   );
 }
