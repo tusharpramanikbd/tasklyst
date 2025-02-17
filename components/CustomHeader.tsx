@@ -1,17 +1,29 @@
 /** @format */
 
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, Platform } from "react-native";
 import { useRouter } from "expo-router";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { getDefaultHeaderHeight } from "@react-navigation/elements";
+import AntDesign from "@expo/vector-icons/AntDesign";
 
 export default function CustomHeader({ title }: { title: string }) {
   const router = useRouter();
+  const insets = useSafeAreaInsets();
+
+  const headerHeight = getDefaultHeaderHeight(
+    {
+      height: 0,
+      width: 0,
+    },
+    Platform.OS === "ios",
+    insets.top,
+  );
 
   return (
-    <View style={styles.header}>
-      <Text onPress={() => router.back()} style={styles.backButton}>
-        ←
-      </Text>
+    <View style={[styles.header, { height: headerHeight }]}>
+      <AntDesign name="left" size={24} color="white" />
       <Text style={styles.title}>{title}</Text>
+      <AntDesign name="right" size={24} color="white" />
     </View>
   );
 }
@@ -19,15 +31,11 @@ export default function CustomHeader({ title }: { title: string }) {
 const styles = StyleSheet.create({
   header: {
     flexDirection: "row",
-    alignItems: "center",
-    padding: 16,
-    paddingTop: 80,
+    alignItems: "flex-end",
+    justifyContent: "space-between",
+    paddingHorizontal: 20,
+    paddingBottom: 10,
     backgroundColor: "#6200ee",
-  },
-  backButton: {
-    color: "#fff",
-    fontSize: 24,
-    marginRight: 16,
   },
   title: {
     color: "#fff",
