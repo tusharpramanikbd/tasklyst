@@ -1,26 +1,14 @@
 /** @format */
 
-import { View, Text, StyleSheet, Platform } from "react-native";
-import { useRouter } from "expo-router";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { getDefaultHeaderHeight } from "@react-navigation/elements";
+import { View, Text, StyleSheet } from "react-native";
 import AntDesign from "@expo/vector-icons/AntDesign";
+import { useGetHeaderHeight } from "@hooks/useGetHeaderHeight";
 
 export default function CustomHeader({ title }: { title: string }) {
-  const router = useRouter();
-  const insets = useSafeAreaInsets();
-
-  const headerHeight = getDefaultHeaderHeight(
-    {
-      height: 0,
-      width: 0,
-    },
-    Platform.OS === "ios",
-    insets.top,
-  );
+  const height = useGetHeaderHeight();
 
   return (
-    <View style={[styles.header, { height: headerHeight }]}>
+    <View style={[styles.header, { height: height }]}>
       <AntDesign name="left" size={24} color="white" />
       <Text style={styles.title}>{title}</Text>
       <AntDesign name="right" size={24} color="white" />
