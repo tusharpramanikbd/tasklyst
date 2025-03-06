@@ -10,6 +10,7 @@
     "lint": "eslint ."
   },
   "dependencies": {
+    "@react-native-community/datetimepicker": "8.2.0",
     "@react-navigation/elements": "^2.2.5",
     "expo": "~52.0.36",
     "expo-constants": "~17.0.7",

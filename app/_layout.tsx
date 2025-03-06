@@ -13,7 +13,7 @@ const RootLayout = () => {
         <Stack.Screen
           name="index"
           options={{
-            header: () => <CustomHeader title="Home" />,
+            header: () => <CustomHeader />,
           }}
         />
       </Stack>
