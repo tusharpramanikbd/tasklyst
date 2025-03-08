@@ -3,6 +3,34 @@ import { ScrollView, View } from "react-native";
 import ViewWrapper from "@/components/ViewWrapper";
 import TaskItem from "@/components/TaskItem/TaskItem";
 
+const taskList = [
+  {
+    id: 1,
+    title: "Task 1",
+    isCompleted: false,
+  },
+  {
+    id: 2,
+    title: "Task 2",
+    isCompleted: true,
+  },
+  {
+    id: 3,
+    title: "Task 3",
+    isCompleted: false,
+  },
+  {
+    id: 4,
+    title: "Task 4",
+    isCompleted: true,
+  },
+  {
+    id: 5,
+    title: "Task 5",
+    isCompleted: false,
+  },
+];
+
 export default function Home() {
   return (
     <ViewWrapper>
@@ -12,29 +40,7 @@ export default function Home() {
           contentContainerClassName="gap-8"
           showsVerticalScrollIndicator={false}
         >
-          <TaskItem />
-          <TaskItem />
-          <TaskItem />
-          <TaskItem />
-          <TaskItem />
-          <TaskItem />
-          <TaskItem />
-          <TaskItem />
-          <TaskItem />
-          <TaskItem />
-          <TaskItem />
-          <TaskItem />
-          <TaskItem />
-          <TaskItem />
-          <TaskItem />
-          <TaskItem />
-          <TaskItem />
-          <TaskItem />
-          <TaskItem />
-          <TaskItem />
-          <TaskItem />
-          <TaskItem />
-          <TaskItem />
+          {taskList?.map((task) => <TaskItem key={task.id} {...task} />)}
         </ScrollView>
       </View>
     </ViewWrapper>

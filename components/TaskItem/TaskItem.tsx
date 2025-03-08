@@ -4,8 +4,14 @@ import { View, Text } from "react-native";
 import React, { useState } from "react";
 import Checkbox from "expo-checkbox";
 
-const TaskItem = () => {
-  const [isChecked, setChecked] = useState(false);
+interface Task {
+  id: number;
+  title: string;
+  isCompleted: boolean;
+}
+
+const TaskItem = ({ title, isCompleted }: Task) => {
+  const [isChecked, setChecked] = useState(isCompleted);
 
   return (
     <View className="flex-row items-center gap-2">
@@ -14,7 +20,7 @@ const TaskItem = () => {
         onValueChange={setChecked}
         color={isChecked ? "#4630EB" : undefined}
       />
-      <Text className="flex-1 text-xl">Task Title</Text>
+      <Text className="flex-1 text-xl">{title}</Text>
     </View>
   );
 };
