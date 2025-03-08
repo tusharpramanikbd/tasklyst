@@ -1,25 +1,18 @@
 /** @format */
 
 import React, { useState } from "react";
-import { Platform, Pressable, Text, View } from "react-native";
+import { Pressable, Text, View } from "react-native";
 import DateTimePicker, {
   DateTimePickerEvent,
 } from "@react-native-community/datetimepicker";
+import { CalendarProps } from "@/types/calendar.types";
 
-interface CalenderProps {
-  onChange?: (date: Date) => void;
-  onCancel?: () => void;
-  onOk?: () => void;
-}
-
-const Calender = ({ onChange, onCancel, onOk }: CalenderProps) => {
-  const [date, setDate] = useState<Date>(new Date());
-  const isAndroid = Platform.OS === "android";
+const Calendar = ({ onCancel, onOk, date, setDate }: CalendarProps) => {
+  const [tempDate, setTempDate] = useState<Date>(date);
 
   const handleChange = (event: DateTimePickerEvent, selectedDate?: Date) => {
     if (!selectedDate) return;
-    setDate(selectedDate);
-    onChange?.(selectedDate);
+    setTempDate(selectedDate);
   };
 
   const handleCancel = () => {
@@ -27,12 +20,9 @@ const Calender = ({ onChange, onCancel, onOk }: CalenderProps) => {
   };
 
   const handleOk = () => {
+    tempDate && setDate(tempDate);
     onOk?.();
   };
-
-  if (isAndroid) {
-    return <DateTimePicker value={date} mode="date" onChange={handleChange} />;
-  }
 
   return (
     <View className="items-center justify-center pb-4">
@@ -54,4 +44,4 @@ const Calender = ({ onChange, onCancel, onOk }: CalenderProps) => {
   );
 };
 
-export default Calender;
+export default Calendar;
