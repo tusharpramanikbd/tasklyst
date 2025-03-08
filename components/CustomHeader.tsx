@@ -5,43 +5,23 @@ import { Text, Pressable, View } from "react-native";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import { useGetHeaderHeight } from "@hooks/useGetHeaderHeight";
 import { LinearGradient } from "expo-linear-gradient";
-import { useState } from "react";
 import Calendar from "@/components/Calendar";
+import useDateAction from "@/hooks/useDateAction";
 
 export default function CustomHeader() {
-  const [date, setDate] = useState<Date>(new Date());
-  const [show, setShow] = useState(false);
   const height = useGetHeaderHeight();
-
-  const formattedDate = `${String(date.getDate()).padStart(2, "0")}-${String(date.getMonth() + 1).padStart(2, "0")}-${date.getFullYear()}`;
-
-  const handleLeftPress = () => {
-    setDate((currentDate) => {
-      const newDate = new Date(currentDate);
-      newDate.setDate(newDate.getDate() - 1);
-      return newDate;
-    });
-  };
-
-  const handleRightPress = () => {
-    setDate((currentDate) => {
-      const newDate = new Date(currentDate);
-      newDate.setDate(newDate.getDate() + 1);
-      return newDate;
-    });
-  };
-
-  const handleDatePress = () => {
-    setShow(true);
-  };
-
-  const handleCancel = () => {
-    setShow(false);
-  };
-
-  const handleOk = () => {
-    setShow(false);
-  };
+  const {
+    date,
+    setDate,
+    show,
+    formattedDate,
+    handleLeftPress,
+    handleRightPress,
+    handleDatePress,
+    handleCancel,
+    handleOk,
+    isToday,
+  } = useDateAction();
 
   return (
     <>
@@ -59,9 +39,14 @@ export default function CustomHeader() {
             <AntDesign name="left" size={24} color="white" />
           </Pressable>
           <Pressable onPress={handleDatePress}>
-            <Text className="text-white text-2xl font-bold">
-              {formattedDate}
-            </Text>
+            <View className="flex-row items-center">
+              <Text className="text-white text-2xl font-bold">
+                {formattedDate}{" "}
+              </Text>
+              <Text className="text-white text-sm font-normal">
+                {isToday && "(Today)"}
+              </Text>
+            </View>
           </Pressable>
           <Pressable onPress={handleRightPress}>
             <AntDesign name="right" size={24} color="white" />
