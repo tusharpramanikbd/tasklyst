@@ -2,6 +2,7 @@
 import { ScrollView, View } from "react-native";
 import ViewWrapper from "@/components/ViewWrapper";
 import TaskItem from "@/components/TaskItem/TaskItem";
+import AddTaskButton from "@/components/AddTaskButton/AddTaskButton";
 
 const taskList = [
   {
@@ -42,6 +43,7 @@ export default function Home() {
         >
           {taskList?.map((task) => <TaskItem key={task.id} {...task} />)}
         </ScrollView>
+        <AddTaskButton />
       </View>
     </ViewWrapper>
   );
