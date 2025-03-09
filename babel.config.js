@@ -7,5 +7,6 @@ module.exports = function (api) {
       ["babel-preset-expo", { jsxImportSource: "nativewind" }],
       "nativewind/babel",
     ],
+    plugins: [["@babel/plugin-proposal-class-properties", { loose: true }]],
   };
 };
