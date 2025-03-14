@@ -18,7 +18,7 @@ const TaskItem = ({ title, isCompleted }: Task) => {
       <Checkbox
         value={isChecked}
         onValueChange={setChecked}
-        color={isChecked ? "#4630EB" : undefined}
+        color={isChecked ? "green" : "gray"}
       />
       <Text className="flex-1 text-xl">{title}</Text>
     </View>
