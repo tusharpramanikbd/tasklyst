@@ -1,3 +1,79 @@
+/** @format */
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+:root {
+  --font-size-small: 12px;
+  --font-size-regular: 16px;
+  --font-size-large: 20px;
+  --font-size-xlarge: 24px;
+  --font-size-xxlarge: 28px;
+
+  --line-height-small: 16px;
+  --line-height-regular: 20px;
+  --line-height-large: 24px;
+  --line-height-xlarge: 28px;
+  --line-height-xxlarge: 32px;
+}
+
+.font-small {
+  font-size: var(--font-size-small);
+  line-height: var(--line-height-small);
+  text-decoration: none;
+  font-weight: 400;
+  font-style: normal;
+  font-stretch: normal;
+  letter-spacing: 0;
+  margin-bottom: 0;
+  text-transform: none;
+}
+
+.font-regular {
+  font-size: var(--font-size-regular);
+  line-height: var(--line-height-regular);
+  text-decoration: none;
+  font-weight: 400;
+  font-style: normal;
+  font-stretch: normal;
+  letter-spacing: 0;
+  margin-bottom: 0;
+  text-transform: none;
+}
+
+.font-large {
+  font-size: var(--font-size-large);
+  line-height: var(--line-height-large);
+  text-decoration: none;
+  font-weight: 400;
+  font-style: normal;
+  font-stretch: normal;
+  letter-spacing: 0;
+  margin-bottom: 0;
+  text-transform: none;
+}
+
+.font-xlarge {
+  font-size: var(--font-size-xlarge);
+  line-height: var(--line-height-xlarge);
+  text-decoration: none;
+  font-weight: 400;
+  font-style: normal;
+  font-stretch: normal;
+  letter-spacing: 0;
+  margin-bottom: 0;
+  text-transform: none;
+}
+
+.font-xxlarge {
+  font-size: var(--font-size-xxlarge);
+  line-height: var(--line-height-xxlarge);
+  text-decoration: none;
+  font-weight: 400;
+  font-style: normal;
+  font-stretch: normal;
+  letter-spacing: 0;
+  margin-bottom: 0;
+  text-transform: none;
+}

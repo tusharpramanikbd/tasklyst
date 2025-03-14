@@ -1,8 +1,9 @@
 /** @format */
 
-import { View, Text } from "react-native";
+import { View } from "react-native";
 import React, { useState } from "react";
 import Checkbox from "expo-checkbox";
+import Typography from "@/components/Typography/Typography";
 
 interface Task {
   id: number;
@@ -20,7 +21,9 @@ const TaskItem = ({ title, isCompleted }: Task) => {
         onValueChange={setChecked}
         color={isChecked ? "green" : "gray"}
       />
-      <Text className="flex-1 text-xl">{title}</Text>
+      <Typography type="large" className="flex-1">
+        {title}
+      </Typography>
     </View>
   );
 };

@@ -4,7 +4,7 @@ import React from "react";
 import DateTimePicker, {
   DateTimePickerEvent,
 } from "@react-native-community/datetimepicker";
-import { CalendarProps } from "@/types/calendar.types";
+import { CalendarProps } from "@/components/Calendar/types";
 
 const Calendar = ({ date, setDate, onOk }: CalendarProps) => {
   const handleChange = (event: DateTimePickerEvent, selectedDate?: Date) => {

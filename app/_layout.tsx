@@ -4,7 +4,7 @@ import React from "react";
 import { Stack } from "expo-router";
 import "react-native-reanimated";
 import "../global.css";
-import CustomHeader from "@/components/CustomHeader";
+import CustomHeader from "@/components/Headers/CustomHeader";
 
 const RootLayout = () => {
   return (

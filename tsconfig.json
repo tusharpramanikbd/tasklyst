@@ -10,7 +10,8 @@
       "@constants/*": ["./constants/*"],
       "@hooks/*": ["./hooks/*"],
       "@states/*": ["./states/*"],
-      "@types/*": ["./types/*"]
+      "@types/*": ["./types/*"],
+      "@theme/*": ["./theme/*"]
     }
   },
   "include": ["**/*.ts", "**/*.tsx", "nativewind-env.d.ts"]

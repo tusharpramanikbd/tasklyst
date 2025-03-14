@@ -20,7 +20,7 @@ const ViewWrapper = ({
   const Wrapper = enableSafeArea ? SafeAreaView : View;
 
   return (
-    <Wrapper className={`flex-1 bg-white ${className}`}>
+    <Wrapper className={`flex-1 ${className}`}>
       <StatusBar style="light" />
       <LinearGradient
         colors={["#667eea", "#764ba2"]}

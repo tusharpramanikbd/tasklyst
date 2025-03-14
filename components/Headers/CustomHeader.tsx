@@ -1,12 +1,13 @@
 /** @format */
 
 import React from "react";
-import { Text, Pressable, View } from "react-native";
+import { Pressable, View } from "react-native";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import { useGetHeaderHeight } from "@hooks/useGetHeaderHeight";
 import { LinearGradient } from "expo-linear-gradient";
 import Calendar from "@/components/Calendar";
 import useDateAction from "@/hooks/useDateAction";
+import Typography from "@/components/Typography/Typography";
 
 export default function CustomHeader() {
   const height = useGetHeaderHeight();
@@ -40,12 +41,12 @@ export default function CustomHeader() {
           </Pressable>
           <Pressable onPress={handleDatePress}>
             <View className="flex-row items-center">
-              <Text className="text-white text-2xl font-bold">
+              <Typography type="large" className="text-white">
                 {formattedDate}{" "}
-              </Text>
-              <Text className="text-white text-sm font-normal">
+              </Typography>
+              <Typography type="small" className="text-white">
                 {isToday && "(Today)"}
-              </Text>
+              </Typography>
             </View>
           </Pressable>
           <Pressable onPress={handleRightPress}>

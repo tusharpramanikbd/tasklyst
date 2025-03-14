@@ -1,11 +1,12 @@
 /** @format */
 
 import React, { useState } from "react";
-import { Pressable, Text, View } from "react-native";
+import { Pressable, View } from "react-native";
 import DateTimePicker, {
   DateTimePickerEvent,
 } from "@react-native-community/datetimepicker";
-import { CalendarProps } from "@/types/calendar.types";
+import { CalendarProps } from "@/components/Calendar/types";
+import Typography from "@/components/Typography/Typography";
 
 const Calendar = ({ onCancel, onOk, date, setDate }: CalendarProps) => {
   const [tempDate, setTempDate] = useState<Date>(date);
@@ -34,10 +35,10 @@ const Calendar = ({ onCancel, onOk, date, setDate }: CalendarProps) => {
       />
       <View className="w-full flex-row items-center justify-center gap-12">
         <Pressable onPress={handleCancel}>
-          <Text>Cancel</Text>
+          <Typography>Cancel</Typography>
         </Pressable>
         <Pressable onPress={handleOk}>
-          <Text>Ok</Text>
+          <Typography>Ok</Typography>
         </Pressable>
       </View>
     </View>

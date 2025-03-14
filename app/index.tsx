@@ -1,6 +1,6 @@
 /** @format */
 import { ScrollView, View } from "react-native";
-import ViewWrapper from "@/components/ViewWrapper";
+import ViewWrapper from "@/components/Wrappers/ViewWrapper";
 import TaskItem from "@/components/TaskItem/TaskItem";
 import AddTaskButton from "@/components/AddTaskButton/AddTaskButton";
 
