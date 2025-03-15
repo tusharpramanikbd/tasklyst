@@ -5,10 +5,11 @@ import React from "react";
 import { AntDesign } from "expo-vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
 
-const AddTaskButton = () => {
-  const handlePress = () => {
-    console.log("pressed");
-  };
+interface IAddTaskButtonProps {
+  onPress: () => void;
+}
+
+const AddTaskButton = ({ onPress }: IAddTaskButtonProps) => {
   return (
     <LinearGradient
       colors={["#667eea", "#764ba2"]}
@@ -17,7 +18,7 @@ const AddTaskButton = () => {
       end={{ x: 1, y: 0 }}
       style={styles.button}
     >
-      <Pressable onPress={handlePress}>
+      <Pressable onPress={onPress}>
         <AntDesign name="plus" size={34} color="white" />
       </Pressable>
     </LinearGradient>
