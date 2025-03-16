@@ -4,8 +4,8 @@ import { View, Pressable, StyleSheet } from "react-native";
 import React, { useState } from "react";
 import CustomBottomSheetModal from "../BottomSheetModal/CustomBottomSheetModal";
 import { BottomSheetModal, BottomSheetTextInput } from "@gorhom/bottom-sheet";
-import { LinearGradient } from "expo-linear-gradient";
 import Typography from "../Typography/Typography";
+import LinearGradientWrapper from "../LinearGradientWrapper/LinearGradientWrapper";
 
 interface IAddTaskModal {
   bottomSheetModalRef: React.RefObject<BottomSheetModal>;
@@ -24,14 +24,19 @@ const AddTaskModal = ({
     handleCloseBottomSheet();
   };
 
+  const handleCloseModal = () => {
+    setTaskName("");
+    handleCloseBottomSheet();
+  };
+
   return (
     <CustomBottomSheetModal
       ref={bottomSheetModalRef}
       name="add-task-modal"
-      onClose={handleCloseBottomSheet}
+      onClose={handleCloseModal}
       headerProps={{
         title: "Create your task",
-        onClose: handleCloseBottomSheet,
+        onClose: handleCloseModal,
       }}
     >
       <View className="flex-1 gap-6 py-4 z-50">
@@ -41,11 +46,7 @@ const AddTaskModal = ({
           placeholder="Task Name"
           className="border border-gray-300 rounded-md p-2 px-4 min-h-16 text-xl no-underline"
         />
-        <LinearGradient
-          colors={["#667eea", "#764ba2"]}
-          locations={[0, 1]}
-          start={{ x: 0, y: 0 }}
-          end={{ x: 1, y: 0 }}
+        <LinearGradientWrapper
           style={[styles.button, { opacity: taskName.length === 0 ? 0.5 : 1 }]}
         >
           <Pressable
@@ -57,7 +58,7 @@ const AddTaskModal = ({
               Create
             </Typography>
           </Pressable>
-        </LinearGradient>
+        </LinearGradientWrapper>
       </View>
     </CustomBottomSheetModal>
   );

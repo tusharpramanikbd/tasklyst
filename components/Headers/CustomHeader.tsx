@@ -4,10 +4,10 @@ import React from "react";
 import { Pressable, View } from "react-native";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import { useGetHeaderHeight } from "@hooks/useGetHeaderHeight";
-import { LinearGradient } from "expo-linear-gradient";
 import Calendar from "@/components/Calendar";
 import useDateAction from "@/hooks/useDateAction";
 import Typography from "@/components/Typography/Typography";
+import LinearGradientWrapper from "../LinearGradientWrapper/LinearGradientWrapper";
 
 export default function CustomHeader() {
   const height = useGetHeaderHeight();
@@ -26,12 +26,7 @@ export default function CustomHeader() {
 
   return (
     <>
-      <LinearGradient
-        colors={["#667eea", "#764ba2"]}
-        locations={[0, 1]}
-        start={{ x: 0, y: 0 }}
-        end={{ x: 1, y: 0 }}
-      >
+      <LinearGradientWrapper>
         <View
           className="flex-row items-end justify-between px-5 pb-2"
           style={{ height: height }}
@@ -53,7 +48,7 @@ export default function CustomHeader() {
             <AntDesign name="right" size={24} color="white" />
           </Pressable>
         </View>
-      </LinearGradient>
+      </LinearGradientWrapper>
       {show && (
         <Calendar
           date={date}
