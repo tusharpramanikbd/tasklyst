@@ -1,13 +1,13 @@
 /** @format */
 
 import { Platform, Keyboard } from "react-native";
-import { useRef } from "react";
+import { useRef, useCallback } from "react";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
 
 const useCustomBottomSheetModal = () => {
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
 
-  const handleOpenBottomSheet = () => {
+  const handleOpenBottomSheet = useCallback(() => {
     Keyboard.dismiss();
     bottomSheetModalRef.current?.present();
     if (Platform.OS === "ios") {
@@ -15,11 +15,11 @@ const useCustomBottomSheetModal = () => {
         bottomSheetModalRef.current?.expand();
       }, 100);
     }
-  };
+  }, []);
 
-  const handleCloseBottomSheet = () => {
+  const handleCloseBottomSheet = useCallback(() => {
     bottomSheetModalRef.current?.dismiss();
-  };
+  }, []);
 
   return {
     handleOpenBottomSheet,

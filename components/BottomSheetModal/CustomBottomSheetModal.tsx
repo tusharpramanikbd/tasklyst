@@ -1,6 +1,6 @@
 /** @format */
 
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useMemo, useState } from "react";
 import {
   BottomSheetBackdrop,
   BottomSheetBackdropProps,
@@ -12,7 +12,7 @@ import { ICustomBottomSheetModal } from "./types";
 import { LayoutChangeEvent } from "react-native";
 import { Dimensions } from "react-native";
 
-const DEFAULT_SNAP_POINT = 368;
+const DEFAULT_SNAP_POINT = "25%";
 const BOTTOM_SPACE = 20;
 
 const CustomBottomSheetModal = React.forwardRef(
@@ -30,8 +30,8 @@ const CustomBottomSheetModal = React.forwardRef(
   ) => {
     const [contentHeight, setContentHeight] = useState(0);
 
-    const snapPoints =
-      contentHeight > 0
+    const snapPoints = useMemo(() => {
+      return contentHeight > 0
         ? [
             Math.min(
               contentHeight + BOTTOM_SPACE,
@@ -39,6 +39,7 @@ const CustomBottomSheetModal = React.forwardRef(
             ),
           ]
         : [DEFAULT_SNAP_POINT];
+    }, [contentHeight]);
 
     const measureContent = useCallback((event: LayoutChangeEvent) => {
       const { height } = event.nativeEvent.layout;
