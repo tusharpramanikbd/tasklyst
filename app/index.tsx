@@ -1,11 +1,11 @@
 /** @format */
-import React, { useRef } from "react";
+import React from "react";
 import { ScrollView, View, Text } from "react-native";
 import ViewWrapper from "@/components/Wrappers/ViewWrapper";
 import TaskItem from "@/components/TaskItem/TaskItem";
 import AddTaskButton from "@/components/AddTaskButton/AddTaskButton";
 import CustomBottomSheetModal from "@/components/BottomSheetModal/CustomBottomSheetModal";
-import { BottomSheetModal } from "@gorhom/bottom-sheet";
+import useCustomBottomSheetModal from "@/hooks/useCustomBottomSheetModal";
 
 const taskList = [
   {
@@ -36,11 +36,8 @@ const taskList = [
 ];
 
 export default function Home() {
-  const bottomSheetModalRef = useRef<BottomSheetModal>(null);
-
-  const handleOpenBottomSheet = () => {
-    bottomSheetModalRef.current?.present();
-  };
+  const { handleOpenBottomSheet, handleCloseBottomSheet, bottomSheetModalRef } =
+    useCustomBottomSheetModal();
 
   return (
     <>
@@ -56,8 +53,16 @@ export default function Home() {
           <AddTaskButton onPress={handleOpenBottomSheet} />
         </View>
       </ViewWrapper>
-      <CustomBottomSheetModal ref={bottomSheetModalRef}>
-        <View>
+      <CustomBottomSheetModal
+        ref={bottomSheetModalRef}
+        name="add-task-modal"
+        onClose={handleCloseBottomSheet}
+        headerProps={{
+          title: "Add Task",
+          onClose: handleCloseBottomSheet,
+        }}
+      >
+        <View className="flex-1">
           <Text>Hello</Text>
         </View>
       </CustomBottomSheetModal>
