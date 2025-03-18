@@ -14,12 +14,14 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   scheme: "tasklyst-app",
   ios: {
     supportsTablet: true,
+    bundleIdentifier: "com.tusharpramanikbd.tasklyst",
   },
   android: {
     adaptiveIcon: {
       foregroundImage: "./assets/adaptive-icon.png",
       backgroundColor: "#ffffff",
     },
+    package: "com.tusharpramanikbd.tasklyst",
   },
   web: {
     favicon: "./assets/favicon.png",
@@ -36,4 +38,5 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
       },
     ],
   ],
+  jsEngine: "hermes",
 });
