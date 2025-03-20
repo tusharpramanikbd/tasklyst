@@ -7,9 +7,7 @@ import { BottomSheetModal, BottomSheetTextInput } from "@gorhom/bottom-sheet";
 import Typography from "../Typography/Typography";
 import LinearGradientWrapper from "../LinearGradientWrapper/LinearGradientWrapper";
 import { useDateContext } from "@/contexts/DateContext";
-import db from "@/database";
-import { Q } from "@nozbe/watermelondb";
-import { TaskDocType, TaskType } from "@/database/models/types";
+import useDBTaskManager from "@/hooks/useDBTaskManager";
 
 interface IAddTaskModal {
   bottomSheetModalRef: React.RefObject<BottomSheetModal>;
@@ -22,45 +20,13 @@ const AddTaskModal = ({
 }: IAddTaskModal) => {
   const [taskName, setTaskName] = useState("");
   const { date } = useDateContext();
+  const { addTask } = useDBTaskManager();
 
   const handleCreateTask = async () => {
-    const dateTimestamp = new Date(date).getTime();
+    await addTask(taskName, date);
 
-    try {
-      const taskDocsCollection = db.get<TaskDocType>("task_docs");
-      const tasksCollection = db.get<TaskType>("tasks");
-
-      console.log("Task doc collection:", taskDocsCollection.query().fetch());
-
-      await db.write(async () => {
-        const existingTaskDoc = await taskDocsCollection
-          .query(Q.where("task_date", Q.eq(dateTimestamp)))
-          .fetch();
-
-        let taskDoc;
-        if (existingTaskDoc.length === 0) {
-          taskDoc = await taskDocsCollection.create((taskDoc) => {
-            taskDoc.taskDate = dateTimestamp;
-          });
-        } else {
-          taskDoc = existingTaskDoc[0];
-        }
-
-        const newTask = await tasksCollection.create((task) => {
-          task.title = taskName;
-          task.isDone = false;
-          task.createdAt = Date.now();
-          task.taskDoc.set(taskDoc);
-        });
-
-        console.log("Created new task:", newTask);
-      });
-
-      setTaskName("");
-      handleCloseBottomSheet();
-    } catch (error) {
-      console.error("Error creating task:", error);
-    }
+    setTaskName("");
+    handleCloseBottomSheet();
   };
 
   const handleCloseModal = () => {
