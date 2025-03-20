@@ -4,15 +4,10 @@ import { View } from "react-native";
 import React, { useState } from "react";
 import Checkbox from "expo-checkbox";
 import Typography from "@/components/Typography/Typography";
+import { ITask } from "./types";
 
-interface Task {
-  id: number;
-  title: string;
-  isCompleted: boolean;
-}
-
-const TaskItem = ({ title, isCompleted }: Task) => {
-  const [isChecked, setChecked] = useState(isCompleted);
+const TaskItem = ({ title, isDone }: ITask) => {
+  const [isChecked, setChecked] = useState(isDone);
 
   return (
     <View className="flex-row items-center gap-2">

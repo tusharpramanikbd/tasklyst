@@ -1,7 +1,7 @@
 /** @format */
 
 import { Model } from "@nozbe/watermelondb";
-import { children, date } from "@nozbe/watermelondb/decorators";
+import { children, field } from "@nozbe/watermelondb/decorators";
 import { Associations } from "@nozbe/watermelondb/Model";
 import Task from "./Task";
 
@@ -16,6 +16,6 @@ export default class TaskDoc extends Model {
 
   @children("tasks") tasks: Task[];
 
-  @date("task_date")
-  taskDate: Date;
+  @field("task_date")
+  taskDate: string;
 }

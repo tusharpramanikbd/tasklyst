@@ -11,7 +11,7 @@ export default class Task extends Model {
   taskDocId: string;
 
   @relation("task_docs", "task_doc_id")
-  taskDoc!: TaskDoc;
+  taskDoc: TaskDoc;
 
   @field("title")
   title: string;

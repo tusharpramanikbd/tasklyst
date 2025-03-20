@@ -10,7 +10,7 @@ export default appSchema({
       columns: [
         {
           name: "task_date",
-          type: "number",
+          type: "string",
         },
       ],
     }),

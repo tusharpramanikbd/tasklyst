@@ -3,37 +3,35 @@
 import { useState } from "react";
 import db from "@/database";
 import { Q } from "@nozbe/watermelondb";
-import { TaskDocType, TaskType } from "@/database/models/types";
+import { ITaskDocDB, ITaskDB } from "@/database/models/types";
 
 const useDBTaskManager = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<Error | null>(null);
 
-  const taskDocsCollection = db.get<TaskDocType>("task_docs");
-  const tasksCollection = db.get<TaskType>("tasks");
+  const taskDocsCollection = db.get<ITaskDocDB>("task_docs");
+  const tasksCollection = db.get<ITaskDB>("tasks");
 
   const addTask = async (
     title: string,
-    date: Date,
-  ): Promise<TaskType | null> => {
+    date: string,
+  ): Promise<ITaskDB | null> => {
     setIsLoading(true);
     setError(null);
 
     try {
-      const dateTimestamp = new Date(date).getTime();
-
-      let newTask: TaskType | null = null;
+      let newTask: ITaskDB | null = null;
 
       await db.write(async () => {
         // Find or create task_doc for the given date
         const existingTaskDoc = await taskDocsCollection
-          .query(Q.where("task_date", Q.eq(dateTimestamp)))
+          .query(Q.where("task_date", Q.eq(date)))
           .fetch();
 
         let taskDoc;
         if (existingTaskDoc.length === 0) {
           taskDoc = await taskDocsCollection.create((doc) => {
-            doc.taskDate = dateTimestamp;
+            doc.taskDate = date;
           });
         } else {
           taskDoc = existingTaskDoc[0];
@@ -60,16 +58,14 @@ const useDBTaskManager = () => {
     }
   };
 
-  const getTasksByDate = async (date: Date): Promise<TaskType[]> => {
+  const getTasksByDate = async (date: string): Promise<ITaskDB[]> => {
     setIsLoading(true);
     setError(null);
 
     try {
-      const dateTimestamp = new Date(date).getTime();
-
       // Find the task_doc for this date
       const taskDocs = await taskDocsCollection
-        .query(Q.where("task_date", Q.eq(dateTimestamp)))
+        .query(Q.where("task_date", Q.eq(date)))
         .fetch();
 
       if (taskDocs.length === 0) {
