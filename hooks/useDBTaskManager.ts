@@ -1,6 +1,6 @@
 /** @format */
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import db from "@/database";
 import { Q } from "@nozbe/watermelondb";
 import { ITaskDocDB, ITaskDB } from "@/database/models/types";
@@ -20,19 +20,53 @@ const useDBTaskManager = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<Error | null>(null);
   const [taskLists, setTaskLists] = useState<ITask[]>([]);
+  const [observingDate, setObservingDate] = useState<string | null>(null);
 
   const taskDocsCollection = db.get<ITaskDocDB>("task_docs");
   const tasksCollection = db.get<ITaskDB>("tasks");
 
   useEffect(() => {
-    const subscription = tasksCollection
-      .query()
-      .observe()
-      .subscribe((tasks) => {
-        setTaskLists(convertTasksDBToTask(tasks));
-      });
+    if (!observingDate) return;
 
-    return () => subscription.unsubscribe();
+    let subscription: any;
+
+    const setupObservable = async () => {
+      try {
+        const taskDocs = await taskDocsCollection
+          .query(Q.where("task_date", Q.eq(observingDate)))
+          .fetch();
+
+        if (taskDocs.length === 0) {
+          setTaskLists([]);
+          return;
+        }
+
+        const observable = tasksCollection
+          .query(Q.where("task_doc_id", Q.eq(taskDocs[0]?._raw?.id)))
+          .observe();
+
+        subscription = observable.subscribe((updatedTasks) => {
+          setTaskLists(convertTasksDBToTask(updatedTasks));
+        });
+      } catch (err) {
+        setError(
+          err instanceof Error ? err : new Error("Unknown error occurred"),
+        );
+        console.error("Error setting up observable:", err);
+      }
+    };
+
+    setupObservable();
+
+    return () => {
+      if (subscription) {
+        subscription.unsubscribe();
+      }
+    };
+  }, [observingDate, taskDocsCollection, tasksCollection]);
+
+  const observeTasksByDate = useCallback((date: string) => {
+    setObservingDate(date);
   }, []);
 
   const addTask = async (
@@ -46,7 +80,6 @@ const useDBTaskManager = () => {
       let newTask: ITaskDB | null = null;
 
       await db.write(async () => {
-        // Find or create task_doc for the given date
         const existingTaskDoc = await taskDocsCollection
           .query(Q.where("task_date", Q.eq(date)))
           .fetch();
@@ -60,7 +93,6 @@ const useDBTaskManager = () => {
           taskDoc = existingTaskDoc[0];
         }
 
-        // Create the task
         newTask = await tasksCollection.create((task) => {
           task.title = title;
           task.isDone = false;
@@ -81,43 +113,12 @@ const useDBTaskManager = () => {
     }
   };
 
-  const getTasksByDate = async (date: string): Promise<ITaskDB[]> => {
-    setIsLoading(true);
-    setError(null);
-
-    try {
-      // Find the task_doc for this date
-      const taskDocs = await taskDocsCollection
-        .query(Q.where("task_date", Q.eq(date)))
-        .fetch();
-
-      if (taskDocs.length === 0) {
-        return [];
-      }
-
-      // Get all tasks associated with this task_doc
-      const tasks = await tasksCollection
-        .query(Q.where("task_doc_id", Q.eq(taskDocs[0].id)))
-        .fetch();
-
-      return tasks;
-    } catch (err) {
-      setError(
-        err instanceof Error ? err : new Error("Unknown error occurred"),
-      );
-      console.error("Error getting tasks by date:", err);
-      return [];
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
   return {
     isLoading,
     error,
     addTask,
-    getTasksByDate,
     taskLists,
+    observeTasksByDate,
   };
 };
 

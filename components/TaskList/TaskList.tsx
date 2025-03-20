@@ -1,12 +1,18 @@
 /** @format */
 
 import { ScrollView } from "react-native";
-import React from "react";
+import React, { useEffect } from "react";
 import TaskItem from "../TaskItem/TaskItem";
 import useDBTaskManager from "@/hooks/useDBTaskManager";
+import { useDateContext } from "@/contexts/DateContext";
 
 const TaskList = () => {
-  const { taskLists } = useDBTaskManager();
+  const { formattedDate } = useDateContext();
+  const { taskLists, observeTasksByDate } = useDBTaskManager();
+
+  useEffect(() => {
+    observeTasksByDate(formattedDate);
+  }, [formattedDate, observeTasksByDate]);
 
   return (
     <ScrollView
