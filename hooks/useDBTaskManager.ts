@@ -1,16 +1,39 @@
 /** @format */
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import db from "@/database";
 import { Q } from "@nozbe/watermelondb";
 import { ITaskDocDB, ITaskDB } from "@/database/models/types";
+import { ITask } from "@/components/TaskItem/types";
+
+const convertTasksDBToTask = (tasks: ITaskDB[]): ITask[] => {
+  return tasks.map((task) => {
+    return {
+      id: task.id,
+      title: task.title,
+      isDone: task.isDone,
+    };
+  });
+};
 
 const useDBTaskManager = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<Error | null>(null);
+  const [taskLists, setTaskLists] = useState<ITask[]>([]);
 
   const taskDocsCollection = db.get<ITaskDocDB>("task_docs");
   const tasksCollection = db.get<ITaskDB>("tasks");
+
+  useEffect(() => {
+    const subscription = tasksCollection
+      .query()
+      .observe()
+      .subscribe((tasks) => {
+        setTaskLists(convertTasksDBToTask(tasks));
+      });
+
+    return () => subscription.unsubscribe();
+  }, []);
 
   const addTask = async (
     title: string,
@@ -94,6 +117,7 @@ const useDBTaskManager = () => {
     error,
     addTask,
     getTasksByDate,
+    taskLists,
   };
 };
 
