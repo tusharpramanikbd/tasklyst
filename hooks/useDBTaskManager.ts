@@ -6,7 +6,7 @@ import { Q } from "@nozbe/watermelondb";
 import { ITaskDocDB, ITaskDB } from "@/database/models/types";
 import { ITask } from "@/components/TaskItem/types";
 
-const convertTasksDBToTask = (tasks: ITaskDB[]): ITask[] => {
+const convertDBTasksToTask = (tasks: ITaskDB[]): ITask[] => {
   return tasks.map((task) => {
     return {
       id: task.id,
@@ -21,6 +21,7 @@ const useDBTaskManager = () => {
   const [error, setError] = useState<Error | null>(null);
   const [taskLists, setTaskLists] = useState<ITask[]>([]);
   const [observingDate, setObservingDate] = useState<string | null>(null);
+  const [taskDocId, setTaskDocId] = useState<string | null>(null);
 
   const taskDocsCollection = db.get<ITaskDocDB>("task_docs");
   const tasksCollection = db.get<ITaskDB>("tasks");
@@ -28,25 +29,32 @@ const useDBTaskManager = () => {
   useEffect(() => {
     if (!observingDate) return;
 
-    let subscription: any;
+    let taskSubscription: any;
+    let taskDocSubscription: any;
 
     const setupObservable = async () => {
       try {
-        const taskDocs = await taskDocsCollection
+        taskDocSubscription = taskDocsCollection
           .query(Q.where("task_date", Q.eq(observingDate)))
-          .fetch();
+          .observe()
+          .subscribe((taskDocs) => {
+            if (taskDocs.length === 0) {
+              setTaskLists([]);
+              setTaskDocId(null);
+              return;
+            }
 
-        if (taskDocs.length === 0) {
-          setTaskLists([]);
-          return;
-        }
+            setTaskDocId(taskDocs[0]?._raw?.id);
+          });
+
+        if (!taskDocId) return;
 
         const observable = tasksCollection
-          .query(Q.where("task_doc_id", Q.eq(taskDocs[0]?._raw?.id)))
+          .query(Q.where("task_doc_id", Q.eq(taskDocId)))
           .observe();
 
-        subscription = observable.subscribe((updatedTasks) => {
-          setTaskLists(convertTasksDBToTask(updatedTasks));
+        taskSubscription = observable.subscribe((updatedTasks) => {
+          setTaskLists(convertDBTasksToTask(updatedTasks));
         });
       } catch (err) {
         setError(
@@ -59,11 +67,15 @@ const useDBTaskManager = () => {
     setupObservable();
 
     return () => {
-      if (subscription) {
-        subscription.unsubscribe();
+      if (taskSubscription) {
+        taskSubscription.unsubscribe();
+      }
+
+      if (taskDocSubscription) {
+        taskDocSubscription.unsubscribe();
       }
     };
-  }, [observingDate, taskDocsCollection, tasksCollection]);
+  }, [observingDate, taskDocId, taskDocsCollection, tasksCollection]);
 
   const observeTasksByDate = useCallback((date: string) => {
     setObservingDate(date);
