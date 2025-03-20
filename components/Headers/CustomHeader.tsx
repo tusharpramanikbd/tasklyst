@@ -5,9 +5,9 @@ import { Pressable, View } from "react-native";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import { useGetHeaderHeight } from "@hooks/useGetHeaderHeight";
 import Calendar from "@/components/Calendar";
-import useDateAction from "@/hooks/useDateAction";
 import Typography from "@/components/Typography/Typography";
 import LinearGradientWrapper from "../LinearGradientWrapper/LinearGradientWrapper";
+import { useDateContext } from "@/contexts/DateContext";
 
 export default function CustomHeader() {
   const height = useGetHeaderHeight();
@@ -22,7 +22,7 @@ export default function CustomHeader() {
     handleCancel,
     handleOk,
     isToday,
-  } = useDateAction();
+  } = useDateContext();
 
   return (
     <>

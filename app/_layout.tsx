@@ -7,21 +7,24 @@ import "../global.css";
 import CustomHeader from "@/components/Headers/CustomHeader";
 import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { DateProvider } from "@/contexts/DateContext";
 
 const RootLayout = () => {
   return (
     <ThemeProvider value={DefaultTheme}>
       <GestureHandlerRootView style={{ flex: 1 }}>
-        <BottomSheetModalProvider>
-          <Stack>
-            <Stack.Screen
-              name="index"
-              options={{
-                header: () => <CustomHeader />,
-              }}
-            />
-          </Stack>
-        </BottomSheetModalProvider>
+        <DateProvider>
+          <BottomSheetModalProvider>
+            <Stack>
+              <Stack.Screen
+                name="index"
+                options={{
+                  header: () => <CustomHeader />,
+                }}
+              />
+            </Stack>
+          </BottomSheetModalProvider>
+        </DateProvider>
       </GestureHandlerRootView>
     </ThemeProvider>
   );
