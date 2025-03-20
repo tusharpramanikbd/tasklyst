@@ -19,11 +19,11 @@ const AddTaskModal = ({
   handleCloseBottomSheet,
 }: IAddTaskModal) => {
   const [taskName, setTaskName] = useState("");
-  const { date } = useDateContext();
+  const { formattedDate } = useDateContext();
   const { addTask } = useDBTaskManager();
 
   const handleCreateTask = async () => {
-    await addTask(taskName, date);
+    await addTask(taskName, formattedDate);
 
     setTaskName("");
     handleCloseBottomSheet();
