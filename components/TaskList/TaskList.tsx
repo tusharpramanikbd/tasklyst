@@ -22,10 +22,17 @@ const TaskList = () => {
       ) : (
         <ScrollView
           bounces={false}
-          contentContainerClassName="gap-8"
+          contentContainerClassName="gap-5"
           showsVerticalScrollIndicator={false}
         >
-          {taskLists?.map((task) => <TaskItem key={task.id} {...task} />)}
+          {taskLists?.map((task, index) => (
+            <>
+              <TaskItem key={task.id} {...task} />
+              {index !== taskLists.length - 1 && (
+                <View className="h-[1px] w-full bg-gray-200" />
+              )}
+            </>
+          ))}
         </ScrollView>
       )}
     </View>

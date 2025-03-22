@@ -55,7 +55,7 @@ const AddTaskModal = ({
           style={[styles.button, { opacity: taskName.length === 0 ? 0.5 : 1 }]}
         >
           <Pressable
-            className="bg-primary p-2 rounded-md"
+            className="p-2 rounded-md"
             onPress={handleCreateTask}
             disabled={taskName.length === 0}
           >

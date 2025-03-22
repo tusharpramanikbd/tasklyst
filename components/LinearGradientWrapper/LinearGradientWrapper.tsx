@@ -3,7 +3,7 @@
 import { ViewStyle, StyleProp } from "react-native";
 import React from "react";
 import { LinearGradient, LinearGradientProps } from "expo-linear-gradient";
-
+import { colors as themeColors } from "@/theme/colors";
 interface ILinearGradientWrapper extends Omit<LinearGradientProps, "colors"> {
   children: React.ReactNode;
   style?: StyleProp<ViewStyle>;
@@ -13,7 +13,7 @@ interface ILinearGradientWrapper extends Omit<LinearGradientProps, "colors"> {
 const LinearGradientWrapper = ({
   children,
   style,
-  colors = ["#667eea", "#764ba2"],
+  colors = [themeColors.primary, themeColors.secondary],
   locations = [0, 1],
   start = { x: 0, y: 0 },
   end = { x: 1, y: 0 },

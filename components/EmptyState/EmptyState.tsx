@@ -17,7 +17,7 @@ const EmptyState = () => {
       >
         <FontAwesome name="tasks" size={110} color="white" />
       </LinearGradientWrapper>
-      <Typography type="large" className="text-center !font-bold">
+      <Typography type="large" className="text-center !font-bold text-gray-600">
         No tasks for this date
       </Typography>
     </View>

@@ -11,10 +11,7 @@
       "@app/*": ["./app/*"],
       "@assets/*": ["./assets/*"],
       "@components/*": ["./components/*"],
-      "@constants/*": ["./constants/*"],
       "@hooks/*": ["./hooks/*"],
-      "@states/*": ["./states/*"],
-      "@types/*": ["./types/*"],
       "@theme/*": ["./theme/*"],
       "@database/*": ["./database/*"],
       "@contexts/*": ["./contexts/*"]
