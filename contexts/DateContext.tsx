@@ -1,6 +1,13 @@
 /** @format */
 
-import React, { createContext, useContext, useState, ReactNode } from "react";
+import { checkIfPastDate } from "@/utils/helperFunctions";
+import React, {
+  createContext,
+  useContext,
+  useState,
+  ReactNode,
+  useMemo,
+} from "react";
 
 interface DateContextType {
   date: Date;
@@ -14,6 +21,7 @@ interface DateContextType {
   handleCancel: () => void;
   handleOk: () => void;
   isToday: boolean;
+  isPastDates: boolean;
 }
 
 const initialDateContext: DateContextType = {
@@ -28,6 +36,7 @@ const initialDateContext: DateContextType = {
   handleCancel: () => {},
   handleOk: () => {},
   isToday: false,
+  isPastDates: false,
 };
 
 const DateContext = createContext<DateContextType>(initialDateContext);
@@ -42,6 +51,7 @@ const DateProvider: React.FC<DateProviderProps> = ({ children }) => {
 
   const formattedDate = `${String(date.getDate()).padStart(2, "0")}-${String(date.getMonth() + 1).padStart(2, "0")}-${date.getFullYear()}`;
   const isToday = date.toDateString() === new Date().toDateString();
+  const isPastDates = useMemo(() => checkIfPastDate(date), [date]);
 
   const handleLeftPress = () => {
     setDate((currentDate) => {
@@ -83,6 +93,7 @@ const DateProvider: React.FC<DateProviderProps> = ({ children }) => {
     handleCancel,
     handleOk,
     isToday,
+    isPastDates,
   };
 
   return <DateContext.Provider value={value}>{children}</DateContext.Provider>;

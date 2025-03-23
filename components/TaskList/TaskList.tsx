@@ -8,7 +8,7 @@ import { useDateContext } from "@/contexts/DateContext";
 import EmptyState from "../EmptyState/EmptyState";
 
 const TaskList = () => {
-  const { formattedDate } = useDateContext();
+  const { formattedDate, isPastDates } = useDateContext();
   const { taskLists, observeTasksByDate } = useDBTaskManager();
 
   useEffect(() => {
@@ -30,6 +30,7 @@ const TaskList = () => {
               key={task.id}
               {...task}
               isLast={index === taskLists.length - 1}
+              isDisabled={isPastDates}
             />
           ))}
         </ScrollView>

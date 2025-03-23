@@ -5,4 +5,5 @@ export interface ITask {
   title: string;
   isDone: boolean;
   isLast?: boolean;
+  isDisabled?: boolean;
 }

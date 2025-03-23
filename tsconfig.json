@@ -14,7 +14,8 @@
       "@hooks/*": ["./hooks/*"],
       "@theme/*": ["./theme/*"],
       "@database/*": ["./database/*"],
-      "@contexts/*": ["./contexts/*"]
+      "@contexts/*": ["./contexts/*"],
+      "@utils/*": ["./utils/*"]
     }
   },
   "include": ["**/*.ts", "**/*.tsx", "nativewind-env.d.ts"]
