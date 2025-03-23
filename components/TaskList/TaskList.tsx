@@ -26,12 +26,11 @@ const TaskList = () => {
           showsVerticalScrollIndicator={false}
         >
           {taskLists?.map((task, index) => (
-            <>
-              <TaskItem key={task.id} {...task} />
-              {index !== taskLists.length - 1 && (
-                <View className="h-[1px] w-full bg-gray-200" />
-              )}
-            </>
+            <TaskItem
+              key={task.id}
+              {...task}
+              isLast={index === taskLists.length - 1}
+            />
           ))}
         </ScrollView>
       )}
