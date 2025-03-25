@@ -1,6 +1,6 @@
 /** @format */
 
-import React, { useCallback, useMemo, useState } from "react";
+import React, { useCallback } from "react";
 import {
   BottomSheetBackdrop,
   BottomSheetBackdropProps,
@@ -9,11 +9,6 @@ import {
 } from "@gorhom/bottom-sheet";
 import BottomSheetHeader from "./BottomSheetHeader";
 import { ICustomBottomSheetModal } from "./types";
-import { LayoutChangeEvent } from "react-native";
-import { Dimensions } from "react-native";
-
-const DEFAULT_SNAP_POINT = "25%";
-const BOTTOM_SPACE = 20;
 
 const CustomBottomSheetModal = React.forwardRef(
   (
@@ -28,24 +23,6 @@ const CustomBottomSheetModal = React.forwardRef(
     }: ICustomBottomSheetModal,
     ref: React.ForwardedRef<BottomSheetModal<ICustomBottomSheetModal>>,
   ) => {
-    const [contentHeight, setContentHeight] = useState(0);
-
-    const snapPoints = useMemo(() => {
-      return contentHeight > 0
-        ? [
-            Math.min(
-              contentHeight + BOTTOM_SPACE,
-              Dimensions.get("window").height * 0.9,
-            ),
-          ]
-        : [DEFAULT_SNAP_POINT];
-    }, [contentHeight]);
-
-    const measureContent = useCallback((event: LayoutChangeEvent) => {
-      const { height } = event.nativeEvent.layout;
-      setContentHeight(height);
-    }, []);
-
     const renderBackdrop = useCallback(
       (props: BottomSheetBackdropProps) => (
         <BottomSheetBackdrop
@@ -65,13 +42,10 @@ const CustomBottomSheetModal = React.forwardRef(
         index={bottomSheetIndex}
         backdropComponent={renderBackdrop}
         enableDismissOnClose={enableDismissOnClose}
-        snapPoints={snapPoints}
+        snapPoints={["30%", "40%"]}
         {...props}
       >
-        <BottomSheetView
-          className="px-4 pb-10 flex-1"
-          onLayout={measureContent}
-        >
+        <BottomSheetView className="px-4 pb-10 flex-1">
           {headerProps?.title && <BottomSheetHeader {...headerProps} />}
           {children}
         </BottomSheetView>
