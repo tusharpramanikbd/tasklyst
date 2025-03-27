@@ -19,6 +19,7 @@ const CustomBottomSheetModal = React.forwardRef(
       bottomSheetIndex = 0,
       headerProps,
       enableDismissOnClose = true,
+      snapPoints = ["30%", "40%"],
       ...props
     }: ICustomBottomSheetModal,
     ref: React.ForwardedRef<BottomSheetModal<ICustomBottomSheetModal>>,
@@ -42,7 +43,7 @@ const CustomBottomSheetModal = React.forwardRef(
         index={bottomSheetIndex}
         backdropComponent={renderBackdrop}
         enableDismissOnClose={enableDismissOnClose}
-        snapPoints={["30%", "40%"]}
+        snapPoints={snapPoints}
         {...props}
       >
         <BottomSheetView className="px-4 pb-10 flex-1">
