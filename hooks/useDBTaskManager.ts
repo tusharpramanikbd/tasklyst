@@ -125,12 +125,40 @@ const useDBTaskManager = () => {
     }
   };
 
+  const deleteTask = async (taskId: string) => {
+    setIsLoading(true);
+    setError(null);
+
+    try {
+      const taskToDelete = await tasksCollection.find(taskId);
+      if (!taskToDelete) {
+        throw new Error(`Task with ID ${taskId} not found`);
+      }
+
+      await db.write(async () => {
+        await taskToDelete.destroyPermanently();
+      });
+
+      return true;
+    } catch (err) {
+      const errorMessage =
+        err instanceof Error ? err.message : "Failed to delete task";
+
+      setError(new Error(errorMessage));
+      console.error("Error deleting task:", err);
+      return false;
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return {
     isLoading,
     error,
     addTask,
     taskLists,
     observeTasksByDate,
+    deleteTask,
   };
 };
 

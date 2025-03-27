@@ -14,6 +14,7 @@ const TaskItem = ({
   isDone,
   isLast = false,
   isDisabled = false,
+  id,
 }: ITask) => {
   const [isChecked, setChecked] = useState(isDone);
   const { handleOpenBottomSheet, handleCloseBottomSheet, bottomSheetModalRef } =
@@ -52,6 +53,7 @@ const TaskItem = ({
       <TaskOptionsModal
         bottomSheetModalRef={bottomSheetModalRef}
         handleCloseModal={handleCloseBottomSheet}
+        taskId={id}
       />
     </>
   );
