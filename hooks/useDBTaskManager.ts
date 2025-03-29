@@ -152,6 +152,34 @@ const useDBTaskManager = () => {
     }
   };
 
+  const updateTask = async (taskId: string, taskName: string) => {
+    setIsLoading(true);
+    setError(null);
+
+    try {
+      const taskToUpdate = await tasksCollection.find(taskId);
+      if (!taskToUpdate) {
+        throw new Error(`Task with ID ${taskId} not found`);
+      }
+
+      await db.write(async () => {
+        await taskToUpdate.update((task) => {
+          task.title = taskName;
+        });
+      });
+
+      return true;
+    } catch (err) {
+      setError(
+        err instanceof Error ? err : new Error("Unknown error occurred"),
+      );
+      console.error("Error updating task:", err);
+      return false;
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return {
     isLoading,
     error,
@@ -159,6 +187,7 @@ const useDBTaskManager = () => {
     taskLists,
     observeTasksByDate,
     deleteTask,
+    updateTask,
   };
 };
 

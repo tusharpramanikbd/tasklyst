@@ -54,6 +54,7 @@ const TaskItem = ({
         bottomSheetModalRef={bottomSheetModalRef}
         handleCloseModal={handleCloseBottomSheet}
         taskId={id}
+        taskName={title}
       />
     </>
   );
