@@ -2,8 +2,8 @@
 
 import { Pressable, StyleSheet, View } from "react-native";
 import React from "react";
-import Typography from "../Typography/Typography";
-import LinearGradientWrapper from "../LinearGradientWrapper/LinearGradientWrapper";
+import Typography from "@/components/Typography/Typography";
+import LinearGradientWrapper from "@/components/LinearGradientWrapper/LinearGradientWrapper";
 import BasePopup from "./BasePopup";
 
 interface IConfirmPopup {

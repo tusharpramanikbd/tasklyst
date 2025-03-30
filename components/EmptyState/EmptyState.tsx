@@ -4,7 +4,7 @@ import { View } from "react-native";
 import React from "react";
 import { FontAwesome } from "expo-vector-icons";
 import Typography from "@/components/Typography/Typography";
-import LinearGradientWrapper from "../LinearGradientWrapper/LinearGradientWrapper";
+import LinearGradientWrapper from "@/components/LinearGradientWrapper/LinearGradientWrapper";
 
 const EmptyState = () => {
   return (

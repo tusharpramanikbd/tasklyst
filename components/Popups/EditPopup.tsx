@@ -2,8 +2,8 @@
 
 import { Pressable, StyleSheet, TextInput, View } from "react-native";
 import React, { useState } from "react";
-import LinearGradientWrapper from "../LinearGradientWrapper/LinearGradientWrapper";
-import Typography from "../Typography/Typography";
+import LinearGradientWrapper from "@/components/LinearGradientWrapper/LinearGradientWrapper";
+import Typography from "@/components/Typography/Typography";
 import BasePopup from "./BasePopup";
 
 interface IEditPopup {

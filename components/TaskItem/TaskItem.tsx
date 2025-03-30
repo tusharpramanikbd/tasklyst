@@ -7,8 +7,9 @@ import Typography from "@/components/Typography/Typography";
 import { ITask } from "./types";
 import { Feather } from "expo-vector-icons";
 import { colors } from "@/theme/colors";
-import TaskOptionsModal from "../TaskOptionsModal/TaskOptionsModal";
+import TaskOptionsModal from "@/components/BottomSheetModal/TaskOptionsModal";
 import useCustomBottomSheetModal from "@/hooks/useCustomBottomSheetModal";
+
 const TaskItem = ({
   title,
   isDone,
