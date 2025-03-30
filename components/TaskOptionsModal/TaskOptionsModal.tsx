@@ -1,13 +1,13 @@
 /** @format */
 
+import React from "react";
 import { Pressable, View } from "react-native";
-import React, { useState } from "react";
 import CustomBottomSheetModal from "../BottomSheetModal/CustomBottomSheetModal";
 import Typography from "../Typography/Typography";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
-import { useDBContext } from "@/contexts/DBContext";
-import ConfirmPopup from "../ConfirmPopup/ConfirmPopup";
-import EditPopup from "../EditPopup/EditPopup";
+import ConfirmPopup from "../Popups/ConfirmPopup";
+import EditPopup from "../Popups/EditPopup";
+import useTaskOptions from "@/hooks/useTaskOptions";
 
 interface ITaskOptionsModal {
   bottomSheetModalRef: React.RefObject<BottomSheetModal>;
@@ -22,22 +22,14 @@ const TaskOptionsModal = ({
   taskId,
   taskName,
 }: ITaskOptionsModal) => {
-  const [isConfirmPopupVisible, setIsConfirmPopupVisible] = useState(false);
-  const [isEditPopupVisible, setIsEditPopupVisible] = useState(false);
-
-  const { deleteTask, updateTask } = useDBContext();
-
-  const handleDeleteTask = async () => {
-    await deleteTask(taskId);
-    setIsConfirmPopupVisible(false);
-    handleCloseModal();
-  };
-
-  const handleEditTask = async (newTaskName: string) => {
-    await updateTask(taskId, newTaskName);
-    setIsEditPopupVisible(false);
-    handleCloseModal();
-  };
+  const {
+    isConfirmPopupVisible,
+    isEditPopupVisible,
+    handleDeleteTask,
+    handleEditTask,
+    setIsConfirmPopupVisible,
+    setIsEditPopupVisible,
+  } = useTaskOptions({ taskId, handleCloseModal });
 
   return (
     <>
