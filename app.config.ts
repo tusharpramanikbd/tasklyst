@@ -15,23 +15,21 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   ios: {
     supportsTablet: true,
     bundleIdentifier: "com.tusharpramanikbd.tasklyst",
+    icon: "./assets/icon.png",
   },
   android: {
     adaptiveIcon: {
       foregroundImage: "./assets/adaptive-icon.png",
-      backgroundColor: "#ffffff",
+      backgroundColor: "#C4C3E3",
     },
     package: "com.tusharpramanikbd.tasklyst",
-  },
-  web: {
-    favicon: "./assets/favicon.png",
   },
   plugins: [
     "expo-router",
     [
       "expo-splash-screen",
       {
-        backgroundColor: "#ffffff",
+        backgroundColor: "#C4C3E3",
         image: "./assets/splash-icon.png",
         imageWidth: 200,
         resizeMode: "contain",

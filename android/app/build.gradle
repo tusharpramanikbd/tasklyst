@@ -117,7 +117,6 @@ android {
         }
     }
     packagingOptions {
-        pickFirst '**/libc++_shared.so'
         jniLibs {
             useLegacyPackaging (findProperty('expo.useLegacyPackaging')?.toBoolean() ?: false)
         }
@@ -174,8 +173,4 @@ dependencies {
     } else {
         implementation jscFlavor
     }
-
-    // WatermelonDB JSI is disabled because it conflicts with React Native's new architecture
-    // See: https://github.com/Nozbe/WatermelonDB/issues/1876
-    // implementation project(':watermelondb-jsi')
 }
