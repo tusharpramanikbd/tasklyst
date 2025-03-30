@@ -36,7 +36,9 @@ const TaskItem = ({
           />
           <Typography
             type="large"
-            className={`flex-1 ${isChecked ? "!line-through text-gray-500" : ""}`}
+            className={`flex-1 ${isChecked ? "!line-through text-gray-500" : ""} ${
+              isDisabled ? "text-gray-400" : ""
+            }`}
           >
             {title}
           </Typography>

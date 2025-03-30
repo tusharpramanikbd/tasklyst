@@ -5,6 +5,7 @@ import db from "@/database";
 import { Q } from "@nozbe/watermelondb";
 import { ITaskDocDB, ITaskDB } from "@/database/models/types";
 import { ITask } from "@/components/TaskItem/types";
+import { useDateContext } from "@/contexts/DateContext";
 
 const convertDBTasksToTask = (tasks: ITaskDB[]): ITask[] => {
   return tasks.map((task) => {
@@ -17,109 +18,77 @@ const convertDBTasksToTask = (tasks: ITaskDB[]): ITask[] => {
 };
 
 const useDBTaskManager = () => {
+  const { formattedDate } = useDateContext();
+
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<Error | null>(null);
   const [taskLists, setTaskLists] = useState<ITask[]>([]);
-  const [observingDate, setObservingDate] = useState<string | null>(null);
-  const [taskDocId, setTaskDocId] = useState<string | null>(null);
 
-  const taskDocsCollection = db.get<ITaskDocDB>("task_docs");
-  const tasksCollection = db.get<ITaskDB>("tasks");
+  const taskDocCollection = db.get<ITaskDocDB>("task_docs");
+  const taskCollection = db.get<ITaskDB>("tasks");
+
+  const fetchData = useCallback(async () => {
+    if (!formattedDate) return;
+
+    const taskDoc = await taskDocCollection
+      .query(Q.where("task_date", Q.eq(formattedDate)))
+      .fetch();
+
+    if (taskDoc.length === 0) {
+      setTaskLists([]);
+      return;
+    }
+
+    const taskDocId = taskDoc[0]?._raw?.id;
+
+    const tasks = await taskCollection
+      .query(Q.where("task_doc_id", Q.eq(taskDocId)))
+      .fetch();
+
+    setTaskLists(() => {
+      return [...convertDBTasksToTask(tasks)];
+    });
+  }, [formattedDate, taskCollection, taskDocCollection]);
 
   useEffect(() => {
-    if (!observingDate) return;
+    fetchData();
+  }, [fetchData]);
 
-    let taskSubscription: any;
-    let taskDocSubscription: any;
-
-    const setupObservable = async () => {
-      try {
-        taskDocSubscription = taskDocsCollection
-          .query(Q.where("task_date", Q.eq(observingDate)))
-          .observe()
-          .subscribe((taskDocs) => {
-            if (taskDocs.length === 0) {
-              setTaskLists([]);
-              setTaskDocId(null);
-              return;
-            }
-
-            setTaskDocId(taskDocs[0]?._raw?.id);
-          });
-
-        if (!taskDocId) return;
-
-        const observable = tasksCollection
-          .query(Q.where("task_doc_id", Q.eq(taskDocId)))
-          .observe();
-
-        taskSubscription = observable.subscribe((updatedTasks) => {
-          setTaskLists(convertDBTasksToTask(updatedTasks));
-        });
-      } catch (err) {
-        setError(
-          err instanceof Error ? err : new Error("Unknown error occurred"),
-        );
-        console.error("Error setting up observable:", err);
-      }
-    };
-
-    setupObservable();
-
-    return () => {
-      if (taskSubscription) {
-        taskSubscription.unsubscribe();
-      }
-
-      if (taskDocSubscription) {
-        taskDocSubscription.unsubscribe();
-      }
-    };
-  }, [observingDate, taskDocId, taskDocsCollection, tasksCollection]);
-
-  const observeTasksByDate = useCallback((date: string) => {
-    setObservingDate(date);
-  }, []);
-
-  const addTask = async (
-    title: string,
-    date: string,
-  ): Promise<ITaskDB | null> => {
+  const addTask = async (title: string, date: string) => {
     setIsLoading(true);
     setError(null);
 
     try {
-      let newTask: ITaskDB | null = null;
-
       await db.write(async () => {
-        const existingTaskDoc = await taskDocsCollection
+        const existingTaskDoc = await taskDocCollection
           .query(Q.where("task_date", Q.eq(date)))
           .fetch();
 
         let taskDoc;
         if (existingTaskDoc.length === 0) {
-          taskDoc = await taskDocsCollection.create((doc) => {
+          taskDoc = await taskDocCollection.create((doc) => {
             doc.taskDate = date;
           });
         } else {
           taskDoc = existingTaskDoc[0];
         }
 
-        newTask = await tasksCollection.create((task) => {
-          task.title = title;
-          task.isDone = false;
-          task.createdAt = Date.now();
-          task.taskDoc.set(taskDoc);
-        });
+        await taskCollection
+          .create((task) => {
+            task.title = title;
+            task.isDone = false;
+            task.createdAt = Date.now();
+            task.taskDoc.set(taskDoc);
+          })
+          .then(async () => {
+            await fetchData();
+          });
       });
-
-      return newTask;
     } catch (err) {
       setError(
         err instanceof Error ? err : new Error("Unknown error occurred"),
       );
       console.error("Error adding task:", err);
-      return null;
     } finally {
       setIsLoading(false);
     }
@@ -130,23 +99,22 @@ const useDBTaskManager = () => {
     setError(null);
 
     try {
-      const taskToDelete = await tasksCollection.find(taskId);
+      const taskToDelete = await taskCollection.find(taskId);
       if (!taskToDelete) {
         throw new Error(`Task with ID ${taskId} not found`);
       }
 
       await db.write(async () => {
-        await taskToDelete.destroyPermanently();
+        await taskToDelete.destroyPermanently().then(async () => {
+          await fetchData();
+        });
       });
-
-      return true;
     } catch (err) {
       const errorMessage =
         err instanceof Error ? err.message : "Failed to delete task";
 
       setError(new Error(errorMessage));
       console.error("Error deleting task:", err);
-      return false;
     } finally {
       setIsLoading(false);
     }
@@ -157,24 +125,25 @@ const useDBTaskManager = () => {
     setError(null);
 
     try {
-      const taskToUpdate = await tasksCollection.find(taskId);
+      const taskToUpdate = await taskCollection.find(taskId);
       if (!taskToUpdate) {
         throw new Error(`Task with ID ${taskId} not found`);
       }
 
       await db.write(async () => {
-        await taskToUpdate.update((task) => {
-          task.title = taskName;
-        });
+        await taskToUpdate
+          .update((task) => {
+            task.title = taskName;
+          })
+          .then(async () => {
+            await fetchData();
+          });
       });
-
-      return true;
     } catch (err) {
       setError(
         err instanceof Error ? err : new Error("Unknown error occurred"),
       );
       console.error("Error updating task:", err);
-      return false;
     } finally {
       setIsLoading(false);
     }
@@ -183,9 +152,8 @@ const useDBTaskManager = () => {
   return {
     isLoading,
     error,
-    addTask,
     taskLists,
-    observeTasksByDate,
+    addTask,
     deleteTask,
     updateTask,
   };

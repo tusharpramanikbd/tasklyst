@@ -18,7 +18,7 @@ const EditPopup = ({ isVisible, onClose, onDone, taskName }: IEditPopup) => {
 
   return (
     <Modal isVisible={isVisible} statusBarTranslucent={true}>
-      <View className="bg-white rounded-lg p-6 max-w-[90%] mx-auto gap-4">
+      <View className="bg-white rounded-lg p-6 max-w-[95%] mx-auto gap-4">
         <TextInput
           value={currentTaskName}
           onChangeText={setCurrentTaskName}

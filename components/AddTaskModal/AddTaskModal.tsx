@@ -7,7 +7,7 @@ import { BottomSheetModal, BottomSheetTextInput } from "@gorhom/bottom-sheet";
 import Typography from "../Typography/Typography";
 import LinearGradientWrapper from "../LinearGradientWrapper/LinearGradientWrapper";
 import { useDateContext } from "@/contexts/DateContext";
-import useDBTaskManager from "@/hooks/useDBTaskManager";
+import { useDBContext } from "@/contexts/DBContext";
 
 interface IAddTaskModal {
   bottomSheetModalRef: React.RefObject<BottomSheetModal>;
@@ -20,7 +20,7 @@ const AddTaskModal = ({
 }: IAddTaskModal) => {
   const [taskName, setTaskName] = useState("");
   const { formattedDate } = useDateContext();
-  const { addTask } = useDBTaskManager();
+  const { addTask } = useDBContext();
 
   const handleCreateTask = async () => {
     await addTask(taskName, formattedDate);

@@ -5,7 +5,7 @@ import React, { useState } from "react";
 import CustomBottomSheetModal from "../BottomSheetModal/CustomBottomSheetModal";
 import Typography from "../Typography/Typography";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
-import useDBTaskManager from "@/hooks/useDBTaskManager";
+import { useDBContext } from "@/contexts/DBContext";
 import ConfirmPopup from "../ConfirmPopup/ConfirmPopup";
 import EditPopup from "../EditPopup/EditPopup";
 
@@ -25,7 +25,7 @@ const TaskOptionsModal = ({
   const [isConfirmPopupVisible, setIsConfirmPopupVisible] = useState(false);
   const [isEditPopupVisible, setIsEditPopupVisible] = useState(false);
 
-  const { deleteTask, updateTask } = useDBTaskManager();
+  const { deleteTask, updateTask } = useDBContext();
 
   const handleDeleteTask = async () => {
     await deleteTask(taskId);

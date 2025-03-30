@@ -18,7 +18,7 @@ const MESSAGE = "Are you sure you want to perform this action?";
 const ConfirmPopup = ({ isVisible, onClose, onConfirm }: IConfirmPopup) => {
   return (
     <Modal isVisible={isVisible} statusBarTranslucent={true}>
-      <View className="bg-white rounded-lg p-6 max-w-[90%] mx-auto gap-4">
+      <View className="bg-white rounded-lg p-6 max-w-[95%] mx-auto gap-4">
         <Typography type="large">{TITLE}</Typography>
         <Typography type="regular">{MESSAGE}</Typography>
         <View className="flex-col justify-between mt-4 gap-4">
