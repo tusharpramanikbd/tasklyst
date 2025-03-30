@@ -4,7 +4,7 @@ import { useCallback, useEffect, useState } from "react";
 import db from "@/database";
 import { Q } from "@nozbe/watermelondb";
 import { ITaskDocDB, ITaskDB } from "@/database/models/types";
-import { ITask } from "@/components/TaskItem/types";
+import { ITask } from "@/components/Task/TaskItem/types";
 import { useDateContext } from "@/contexts/DateContext";
 
 const convertDBTasksToTask = (tasks: ITaskDB[]): ITask[] => {

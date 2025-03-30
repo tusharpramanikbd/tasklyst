@@ -2,10 +2,10 @@
 import React from "react";
 import { View } from "react-native";
 import ViewWrapper from "@/components/Wrappers/ViewWrapper";
-import AddTaskButton from "@/components/AddTaskButton/AddTaskButton";
+import AddTaskButton from "@/components/Task/AddTaskButton/AddTaskButton";
 import useCustomBottomSheetModal from "@/hooks/useCustomBottomSheetModal";
 import AddTaskModal from "@/components/BottomSheetModal/AddTaskModal";
-import TaskList from "@/components/TaskList/TaskList";
+import TaskList from "@/components/Task/TaskList/TaskList";
 import { DBProvider } from "@/contexts/DBContext";
 
 export default function Home() {

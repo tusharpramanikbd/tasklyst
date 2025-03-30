@@ -2,7 +2,7 @@
 
 import { ScrollView, View } from "react-native";
 import React from "react";
-import TaskItem from "@/components/TaskItem/TaskItem";
+import TaskItem from "@/components/Task/TaskItem/TaskItem";
 import { useDateContext } from "@/contexts/DateContext";
 import EmptyState from "@/components/EmptyState/EmptyState";
 import { useDBContext } from "@/contexts/DBContext";
