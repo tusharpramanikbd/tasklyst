@@ -5,8 +5,8 @@ import { Pressable, View } from "react-native";
 import DateTimePicker, {
   DateTimePickerEvent,
 } from "@react-native-community/datetimepicker";
-import { CalendarProps } from "@/components/Calendar/types";
-import Typography from "@/components/Typography/Typography";
+import { CalendarProps } from "./types";
+import Typography from "@/components/shared/Typography/Typography";
 
 const Calendar = ({ onCancel, onOk, date, setDate }: CalendarProps) => {
   const [tempDate, setTempDate] = useState<Date>(date);

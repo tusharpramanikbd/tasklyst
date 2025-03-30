@@ -3,11 +3,11 @@
 import { Pressable, View } from "react-native";
 import React, { useState } from "react";
 import Checkbox from "expo-checkbox";
-import Typography from "@/components/Typography/Typography";
+import Typography from "@/components/shared/Typography/Typography";
 import { ITask } from "./types";
 import { Feather } from "expo-vector-icons";
 import { colors } from "@/theme/colors";
-import TaskOptionsModal from "@/components/BottomSheetModal/TaskOptionsModal";
+import TaskOptionsModal from "@/components/shared/BottomSheetModal/TaskOptionsModal";
 import useCustomBottomSheetModal from "@/hooks/useCustomBottomSheetModal";
 
 const TaskItem = ({

@@ -4,9 +4,9 @@ import React from "react";
 import { Pressable, View } from "react-native";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import { useGetHeaderHeight } from "@hooks/useGetHeaderHeight";
-import Calendar from "@/components/Calendar";
-import Typography from "@/components/Typography/Typography";
-import LinearGradientWrapper from "@/components/LinearGradientWrapper/LinearGradientWrapper";
+import Calendar from "@/components/shared/Calendar";
+import Typography from "@/components/shared/Typography/Typography";
+import LinearGradientWrapper from "@/components/shared/LinearGradientWrapper/LinearGradientWrapper";
 import { useDateContext } from "@/contexts/DateContext";
 
 export default function CustomHeader() {

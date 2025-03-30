@@ -1,10 +1,10 @@
 /** @format */
 import React from "react";
 import { View } from "react-native";
-import ViewWrapper from "@/components/Wrappers/ViewWrapper";
+import ViewWrapper from "@/components/shared/Wrappers/ViewWrapper";
 import AddTaskButton from "@/components/Task/AddTaskButton/AddTaskButton";
 import useCustomBottomSheetModal from "@/hooks/useCustomBottomSheetModal";
-import AddTaskModal from "@/components/BottomSheetModal/AddTaskModal";
+import AddTaskModal from "@/components/shared/BottomSheetModal/AddTaskModal";
 import TaskList from "@/components/Task/TaskList/TaskList";
 import { DBProvider } from "@/contexts/DBContext";
 

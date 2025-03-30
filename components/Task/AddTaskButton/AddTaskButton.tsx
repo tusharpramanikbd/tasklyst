@@ -3,7 +3,7 @@
 import { Pressable, StyleSheet } from "react-native";
 import React from "react";
 import { AntDesign } from "expo-vector-icons";
-import LinearGradientWrapper from "@/components/LinearGradientWrapper/LinearGradientWrapper";
+import LinearGradientWrapper from "@/components/shared/LinearGradientWrapper/LinearGradientWrapper";
 
 interface IAddTaskButtonProps {
   onPress: () => void;

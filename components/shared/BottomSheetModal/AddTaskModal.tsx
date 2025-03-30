@@ -4,8 +4,8 @@ import { View, Pressable, StyleSheet } from "react-native";
 import React, { useState } from "react";
 import CustomBottomSheetModal from "./BaseModal/CustomBottomSheetModal";
 import { BottomSheetModal, BottomSheetTextInput } from "@gorhom/bottom-sheet";
-import Typography from "@/components/Typography/Typography";
-import LinearGradientWrapper from "@/components/LinearGradientWrapper/LinearGradientWrapper";
+import Typography from "@/components/shared/Typography/Typography";
+import LinearGradientWrapper from "@/components/shared/LinearGradientWrapper/LinearGradientWrapper";
 import { useDateContext } from "@/contexts/DateContext";
 import { useDBContext } from "@/contexts/DBContext";
 

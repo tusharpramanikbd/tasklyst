@@ -3,10 +3,10 @@
 import React from "react";
 import { Pressable, View } from "react-native";
 import CustomBottomSheetModal from "./BaseModal/CustomBottomSheetModal";
-import Typography from "@/components/Typography/Typography";
+import Typography from "@/components/shared/Typography/Typography";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
-import ConfirmPopup from "@/components/Popups/ConfirmPopup";
-import EditPopup from "@/components/Popups/EditPopup";
+import ConfirmPopup from "@/components/shared/Popups/ConfirmPopup";
+import EditPopup from "@/components/shared/Popups/EditPopup";
 import useTaskOptions from "@/hooks/useTaskOptions";
 
 interface ITaskOptionsModal {

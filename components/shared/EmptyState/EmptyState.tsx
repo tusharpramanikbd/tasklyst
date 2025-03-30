@@ -3,8 +3,8 @@
 import { View } from "react-native";
 import React from "react";
 import { FontAwesome } from "expo-vector-icons";
-import Typography from "@/components/Typography/Typography";
-import LinearGradientWrapper from "@/components/LinearGradientWrapper/LinearGradientWrapper";
+import Typography from "@/components/shared/Typography/Typography";
+import LinearGradientWrapper from "@/components/shared/LinearGradientWrapper/LinearGradientWrapper";
 
 const EmptyState = () => {
   return (

@@ -4,7 +4,7 @@ import React from "react";
 import { Stack } from "expo-router";
 import "react-native-reanimated";
 import "../global.css";
-import CustomHeader from "@/components/Headers/CustomHeader";
+import CustomHeader from "@/components/shared/Headers/CustomHeader";
 import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { DateProvider } from "@/contexts/DateContext";

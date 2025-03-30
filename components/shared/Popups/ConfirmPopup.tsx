@@ -1,34 +1,30 @@
 /** @format */
 
-import { Pressable, StyleSheet, TextInput, View } from "react-native";
-import React, { useState } from "react";
-import LinearGradientWrapper from "@/components/LinearGradientWrapper/LinearGradientWrapper";
-import Typography from "@/components/Typography/Typography";
+import { Pressable, StyleSheet, View } from "react-native";
+import React from "react";
+import Typography from "@/components/shared/Typography/Typography";
+import LinearGradientWrapper from "@/components/shared/LinearGradientWrapper/LinearGradientWrapper";
 import BasePopup from "./BasePopup";
 
-interface IEditPopup {
+interface IConfirmPopup {
   isVisible: boolean;
   onClose: () => void;
-  onDone: (taskName: string) => void;
-  taskName: string;
+  onConfirm: () => void;
 }
 
-const EditPopup = ({ isVisible, onClose, onDone, taskName }: IEditPopup) => {
-  const [currentTaskName, setCurrentTaskName] = useState(taskName);
+const TITLE = "Are you sure?";
+const MESSAGE = "Are you sure you want to perform this action?";
 
+const ConfirmPopup = ({ isVisible, onClose, onConfirm }: IConfirmPopup) => {
   return (
     <BasePopup isVisible={isVisible}>
-      <TextInput
-        value={currentTaskName}
-        onChangeText={setCurrentTaskName}
-        placeholder="Task Name"
-        className="border border-gray-300 rounded-md p-2 px-4 min-h-16 text-xl no-underline min-w-full"
-      />
+      <Typography type="large">{TITLE}</Typography>
+      <Typography type="regular">{MESSAGE}</Typography>
       <View className="flex-col justify-between mt-4 gap-4">
         <LinearGradientWrapper style={[styles.button]}>
-          <Pressable onPress={() => onDone(currentTaskName)}>
+          <Pressable onPress={onConfirm}>
             <Typography type="large" className="text-white !inset-1font-bold">
-              Done
+              Confirm
             </Typography>
           </Pressable>
         </LinearGradientWrapper>
@@ -47,7 +43,7 @@ const EditPopup = ({ isVisible, onClose, onDone, taskName }: IEditPopup) => {
   );
 };
 
-export default EditPopup;
+export default ConfirmPopup;
 
 const styles = StyleSheet.create({
   button: {

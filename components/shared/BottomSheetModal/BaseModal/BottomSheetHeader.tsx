@@ -3,7 +3,7 @@
 import React from "react";
 import { Pressable, View } from "react-native";
 import { BottomSheetView } from "@gorhom/bottom-sheet";
-import Typography from "@/components/Typography/Typography";
+import Typography from "@/components/shared/Typography/Typography";
 import { AntDesign } from "expo-vector-icons";
 import { IBottomSheetHeader } from "./types";
 

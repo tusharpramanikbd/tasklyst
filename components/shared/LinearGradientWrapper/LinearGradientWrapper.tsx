@@ -4,6 +4,7 @@ import { ViewStyle, StyleProp } from "react-native";
 import React from "react";
 import { LinearGradient, LinearGradientProps } from "expo-linear-gradient";
 import { colors as themeColors } from "@/theme/colors";
+
 interface ILinearGradientWrapper extends Omit<LinearGradientProps, "colors"> {
   children: React.ReactNode;
   style?: StyleProp<ViewStyle>;
