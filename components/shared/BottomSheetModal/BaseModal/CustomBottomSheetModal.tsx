@@ -9,6 +9,7 @@ import {
 } from "@gorhom/bottom-sheet";
 import BottomSheetHeader from "./BottomSheetHeader";
 import { ICustomBottomSheetModal } from "./types";
+import { StyleSheet } from "react-native";
 
 const CustomBottomSheetModal = React.forwardRef(
   (
@@ -19,7 +20,7 @@ const CustomBottomSheetModal = React.forwardRef(
       bottomSheetIndex = 0,
       headerProps,
       enableDismissOnClose = true,
-      snapPoints = ["30%", "40%"],
+      snapPoints = [350],
       ...props
     }: ICustomBottomSheetModal,
     ref: React.ForwardedRef<BottomSheetModal<ICustomBottomSheetModal>>,
@@ -44,9 +45,13 @@ const CustomBottomSheetModal = React.forwardRef(
         backdropComponent={renderBackdrop}
         enableDismissOnClose={enableDismissOnClose}
         snapPoints={snapPoints}
+        android_keyboardInputMode="adjustResize"
+        keyboardBehavior="interactive"
+        keyboardBlurBehavior="restore"
+        enablePanDownToClose={true}
         {...props}
       >
-        <BottomSheetView className="px-4 pb-10 flex-1">
+        <BottomSheetView style={styles.container}>
           {headerProps?.title && <BottomSheetHeader {...headerProps} />}
           {children}
         </BottomSheetView>
@@ -58,3 +63,11 @@ const CustomBottomSheetModal = React.forwardRef(
 CustomBottomSheetModal.displayName = "CustomBottomSheetModal";
 
 export default CustomBottomSheetModal;
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    paddingHorizontal: 16,
+    paddingBottom: 16,
+  },
+});

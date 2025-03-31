@@ -41,7 +41,7 @@ const TaskOptionsModal = ({
           title: "Options",
           onClose: handleCloseModal,
         }}
-        snapPoints={[200]}
+        snapPoints={[250]}
       >
         <View className="flex-1 justify-center items-center gap-4">
           <Pressable

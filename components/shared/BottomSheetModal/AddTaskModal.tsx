@@ -43,6 +43,7 @@ const AddTaskModal = ({
         title: "Create your task",
         onClose: handleCloseModal,
       }}
+      snapPoints={[300]}
     >
       <View className="flex-1 gap-6 py-4 z-50">
         <BottomSheetTextInput
