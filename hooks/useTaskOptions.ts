@@ -21,7 +21,10 @@ const useTaskOptions = ({ taskId, handleCloseModal }: IUseTaskOptions) => {
   };
 
   const handleEditTask = async (newTaskName: string) => {
-    await updateTask(taskId, newTaskName);
+    await updateTask({
+      taskId,
+      taskName: newTaskName,
+    });
     setIsEditPopupVisible(false);
     handleCloseModal();
   };

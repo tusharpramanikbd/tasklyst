@@ -120,7 +120,15 @@ const useDBTaskManager = () => {
     }
   };
 
-  const updateTask = async (taskId: string, taskName: string) => {
+  const updateTask = async ({
+    taskId,
+    taskName,
+    isDone,
+  }: {
+    taskId: string;
+    taskName?: string;
+    isDone?: boolean;
+  }) => {
     setIsLoading(true);
     setError(null);
 
@@ -133,7 +141,8 @@ const useDBTaskManager = () => {
       await db.write(async () => {
         await taskToUpdate
           .update((task) => {
-            task.title = taskName;
+            task.title = taskName ?? task.title;
+            task.isDone = isDone ?? task.isDone;
           })
           .then(async () => {
             await fetchData();
