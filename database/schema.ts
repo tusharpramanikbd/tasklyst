@@ -34,6 +34,10 @@ export default appSchema({
           name: "created_at",
           type: "number",
         },
+        {
+          name: "updated_at",
+          type: "number",
+        },
       ],
     }),
   ],

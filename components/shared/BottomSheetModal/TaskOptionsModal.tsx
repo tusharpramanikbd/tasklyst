@@ -14,6 +14,7 @@ interface ITaskOptionsModal {
   handleCloseModal: () => void;
   taskId: string;
   taskName: string;
+  isDone: boolean;
 }
 
 const TaskOptionsModal = ({
@@ -21,6 +22,7 @@ const TaskOptionsModal = ({
   handleCloseModal,
   taskId,
   taskName,
+  isDone,
 }: ITaskOptionsModal) => {
   const {
     isConfirmPopupVisible,
@@ -47,8 +49,14 @@ const TaskOptionsModal = ({
           <Pressable
             className="p-2 rounded-md"
             onPress={() => setIsEditPopupVisible(true)}
+            disabled={isDone}
           >
-            <Typography type="xlarge">Edit</Typography>
+            <Typography
+              type="xlarge"
+              className={`${isDone ? "text-gray-300" : ""}`}
+            >
+              Edit
+            </Typography>
           </Pressable>
           <Pressable
             className="p-2 rounded-md"

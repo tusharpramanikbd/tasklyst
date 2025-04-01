@@ -10,6 +10,7 @@ export interface ITaskDB extends Model {
   title: string;
   isDone: boolean;
   createdAt: number;
+  updatedAt: number;
   taskDoc: {
     set: (model: ITaskDocDB) => void;
   };

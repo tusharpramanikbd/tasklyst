@@ -13,6 +13,8 @@ const convertDBTasksToTask = (tasks: ITaskDB[]): ITask[] => {
       id: task.id,
       title: task.title,
       isDone: task.isDone,
+      updatedAt: task.updatedAt,
+      createdAt: task.createdAt,
     };
   });
 };
@@ -45,8 +47,20 @@ const useDBTaskManager = () => {
       .query(Q.where("task_doc_id", Q.eq(taskDocId)))
       .fetch();
 
+    const uiTasks = convertDBTasksToTask(tasks);
+
+    const incompleteTasks = uiTasks.filter((task) => !task.isDone);
+    const sortedIncompleteTasks = incompleteTasks.sort(
+      (a, b) => b.createdAt - a.createdAt,
+    );
+
+    const completedTasks = uiTasks.filter((task) => task.isDone);
+    const sortedCompletedTasks = completedTasks.sort(
+      (a, b) => a.updatedAt - b.updatedAt,
+    );
+
     setTaskLists(() => {
-      return [...convertDBTasksToTask(tasks)];
+      return [...sortedIncompleteTasks, ...sortedCompletedTasks];
     });
   }, [formattedDate, taskCollection, taskDocCollection]);
 
@@ -78,6 +92,7 @@ const useDBTaskManager = () => {
             task.title = title;
             task.isDone = false;
             task.createdAt = Date.now();
+            task.updatedAt = Date.now();
             task.taskDoc.set(taskDoc);
           })
           .then(async () => {
@@ -143,6 +158,7 @@ const useDBTaskManager = () => {
           .update((task) => {
             task.title = taskName ?? task.title;
             task.isDone = isDone ?? task.isDone;
+            task.updatedAt = Date.now();
           })
           .then(async () => {
             await fetchData();

@@ -21,4 +21,7 @@ export default class Task extends Model {
 
   @date("created_at")
   createdAt: Date;
+
+  @date("updated_at")
+  updatedAt: Date;
 }

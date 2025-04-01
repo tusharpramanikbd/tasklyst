@@ -66,6 +66,7 @@ const TaskItem = ({
         handleCloseModal={handleCloseBottomSheet}
         taskId={id}
         taskName={title}
+        isDone={isDone}
       />
     </>
   );

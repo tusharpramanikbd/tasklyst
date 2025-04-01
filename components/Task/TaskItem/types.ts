@@ -6,4 +6,6 @@ export interface ITask {
   isDone: boolean;
   isLast?: boolean;
   isDisabled?: boolean;
+  updatedAt: number;
+  createdAt: number;
 }
