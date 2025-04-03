@@ -31,6 +31,7 @@ const TaskOptionsModal = ({
     handleEditTask,
     setIsConfirmPopupVisible,
     setIsEditPopupVisible,
+    handleMoveTaskToNextDay,
   } = useTaskOptions({ taskId, handleCloseModal });
 
   return (
@@ -43,7 +44,7 @@ const TaskOptionsModal = ({
           title: "Options",
           onClose: handleCloseModal,
         }}
-        snapPoints={[250]}
+        snapPoints={[270]}
       >
         <View className="flex-1 justify-center items-center gap-4">
           <Pressable
@@ -56,6 +57,18 @@ const TaskOptionsModal = ({
               className={`${isDone ? "text-gray-300" : ""}`}
             >
               Edit
+            </Typography>
+          </Pressable>
+          <Pressable
+            className="p-2 rounded-md"
+            onPress={() => handleMoveTaskToNextDay(taskName, taskId)}
+            disabled={isDone}
+          >
+            <Typography
+              type="xlarge"
+              className={`${isDone ? "text-gray-300" : ""}`}
+            >
+              Move to next day
             </Typography>
           </Pressable>
           <Pressable

@@ -12,7 +12,7 @@ const useTaskOptions = ({ taskId, handleCloseModal }: IUseTaskOptions) => {
   const [isConfirmPopupVisible, setIsConfirmPopupVisible] = useState(false);
   const [isEditPopupVisible, setIsEditPopupVisible] = useState(false);
 
-  const { deleteTask, updateTask } = useDBContext();
+  const { deleteTask, updateTask, moveTaskToNextDay } = useDBContext();
 
   const handleDeleteTask = async () => {
     await deleteTask(taskId);
@@ -29,6 +29,11 @@ const useTaskOptions = ({ taskId, handleCloseModal }: IUseTaskOptions) => {
     handleCloseModal();
   };
 
+  const handleMoveTaskToNextDay = async (taskTitle: string, taskId: string) => {
+    await moveTaskToNextDay(taskTitle, taskId);
+    handleCloseModal();
+  };
+
   return {
     isConfirmPopupVisible,
     isEditPopupVisible,
@@ -36,6 +41,7 @@ const useTaskOptions = ({ taskId, handleCloseModal }: IUseTaskOptions) => {
     handleEditTask,
     setIsConfirmPopupVisible,
     setIsEditPopupVisible,
+    handleMoveTaskToNextDay,
   };
 };
 

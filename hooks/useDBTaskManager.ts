@@ -20,7 +20,7 @@ const convertDBTasksToTask = (tasks: ITaskDB[]): ITask[] => {
 };
 
 const useDBTaskManager = () => {
-  const { formattedDate } = useDateContext();
+  const { formattedDate, nextDate } = useDateContext();
 
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<Error | null>(null);
@@ -174,6 +174,23 @@ const useDBTaskManager = () => {
     }
   };
 
+  const moveTaskToNextDay = async (taskTitle: string, taskId: string) => {
+    setIsLoading(true);
+    setError(null);
+
+    try {
+      await deleteTask(taskId);
+      await addTask(taskTitle, nextDate);
+    } catch (err) {
+      setError(
+        err instanceof Error ? err : new Error("Unknown error occurred"),
+      );
+      console.error("Error moving task to next day:", err);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return {
     isLoading,
     error,
@@ -181,6 +198,7 @@ const useDBTaskManager = () => {
     addTask,
     deleteTask,
     updateTask,
+    moveTaskToNextDay,
   };
 };
 

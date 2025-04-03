@@ -1,6 +1,14 @@
 /** @format */
 
-import { checkIfPastDate } from "@/utils/helperFunctions";
+import {
+  addDays,
+  format,
+  isBefore,
+  isToday as isTodayFns,
+  startOfDay,
+  startOfToday,
+  subDays,
+} from "date-fns";
 import React, {
   createContext,
   useContext,
@@ -22,6 +30,7 @@ interface DateContextType {
   handleOk: () => void;
   isToday: boolean;
   isPastDates: boolean;
+  nextDate: string;
 }
 
 const initialDateContext: DateContextType = {
@@ -37,6 +46,7 @@ const initialDateContext: DateContextType = {
   handleOk: () => {},
   isToday: false,
   isPastDates: false,
+  nextDate: "",
 };
 
 const DateContext = createContext<DateContextType>(initialDateContext);
@@ -46,27 +56,22 @@ interface DateProviderProps {
 }
 
 const DateProvider: React.FC<DateProviderProps> = ({ children }) => {
-  const [date, setDate] = useState<Date>(new Date());
+  const [date, setDate] = useState<Date>(() => startOfToday());
   const [show, setShow] = useState(false);
 
-  const formattedDate = `${String(date.getDate()).padStart(2, "0")}-${String(date.getMonth() + 1).padStart(2, "0")}-${date.getFullYear()}`;
-  const isToday = date.toDateString() === new Date().toDateString();
-  const isPastDates = useMemo(() => checkIfPastDate(date), [date]);
+  const formattedDate = format(date, "dd-MM-yyyy");
+  const isToday = isTodayFns(date);
+  const isPastDates = useMemo(
+    () => isBefore(date, startOfDay(new Date())),
+    [date],
+  );
 
   const handleLeftPress = () => {
-    setDate((currentDate) => {
-      const newDate = new Date(currentDate);
-      newDate.setDate(newDate.getDate() - 1);
-      return newDate;
-    });
+    setDate((currentDate) => subDays(currentDate, 1));
   };
 
   const handleRightPress = () => {
-    setDate((currentDate) => {
-      const newDate = new Date(currentDate);
-      newDate.setDate(newDate.getDate() + 1);
-      return newDate;
-    });
+    setDate((currentDate) => addDays(currentDate, 1));
   };
 
   const handleDatePress = () => {
@@ -79,6 +84,10 @@ const DateProvider: React.FC<DateProviderProps> = ({ children }) => {
 
   const handleOk = () => {
     setShow(false);
+  };
+
+  const getNextDate = () => {
+    return format(addDays(date, 1), "dd-MM-yyyy");
   };
 
   const value = {
@@ -94,6 +103,7 @@ const DateProvider: React.FC<DateProviderProps> = ({ children }) => {
     handleOk,
     isToday,
     isPastDates,
+    nextDate: getNextDate(),
   };
 
   return <DateContext.Provider value={value}>{children}</DateContext.Provider>;
